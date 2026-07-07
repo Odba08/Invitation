@@ -90,7 +90,7 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
           <h3>¡Confirmación Recibida!</h3>
           <p>Muchas gracias, tu confirmación y voto han sido guardados.</p>
           {formData.attending ? (
-            <p className="success-subtext">¡Nos vemos el 14 de Noviembre! 🎉</p>
+            <p className="success-subtext">¡Nos vemos el 08 de Agosto! 🎉</p>
           ) : (
             <p className="success-subtext">Sentimos que no puedas acompañarnos, gracias por informarnos. ❤️</p>
           )}

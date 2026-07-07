@@ -3,13 +3,13 @@
 
 /* variables del sistema de diseño */
 :root {
-  --color-olive: hsl(76, 25%, 36%);       /* Verde oliva principal (#5e6b4e) */
-  --color-olive-dark: hsl(76, 25%, 26%);  /* Verde oliva oscuro (#434d38) */
-  --color-olive-light: hsl(76, 20%, 88%); /* Verde oliva claro suave */
-  --color-cream: hsl(36, 30%, 94%);       /* Crema de fondo (#f5f1eb) */
-  --color-cream-dark: hsl(36, 20%, 88%);  /* Crema oscuro para bordes */
-  --color-text-dark: #2c302e;             /* Texto oscuro suave */
-  --color-text-muted: #5e6662;           /* Texto secundario */
+  --color-olive: hsl(24, 35%, 42%);       /* Terracota/Tierra principal (#905f45) */
+  --color-olive-dark: hsl(24, 35%, 26%);  /* Chocolate/Tierra oscuro (#593a2a) */
+  --color-olive-light: hsl(24, 25%, 92%); /* Arena/Tierra claro suave (#f4efe9) */
+  --color-cream: hsl(30, 25%, 95%);       /* Crema de fondo (#f6f3ed) */
+  --color-cream-dark: hsl(30, 18%, 88%);  /* Arena oscuro para bordes (#ebdcd0) */
+  --color-text-dark: #2f2722;             /* Texto oscuro suave */
+  --color-text-muted: #6b5c54;           /* Texto secundario */
   --color-boy: #5ba4e5;                  /* Azul para votación bebé */
   --color-girl: #f17db4;                 /* Rosa para votación bebé */
   
@@ -18,7 +18,7 @@
   --font-sans: 'Montserrat', sans-serif;
   
   --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 4px 20px rgba(94, 107, 78, 0.08);
+  --shadow-card: 0 4px 20px rgba(144, 95, 69, 0.08);
 }
 
 * {
@@ -29,7 +29,7 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #1a1e1b; /* Fondo exterior para centrar en escritorio */
+  background-color: #231c18; /* Fondo exterior para centrar en escritorio (Marrón tierra oscuro) */
   color: var(--color-text-dark);
   display: flex;
   justify-content: center;
@@ -58,7 +58,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #2b3321;
+  background-color: #3a2d24; /* Marrón tierra oscuro */
   display: flex;
   justify-content: center;
   align-items: center;

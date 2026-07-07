@@ -64,6 +64,28 @@ export default function GenderReveal({ selectedGender, setSelectedGender }) {
         </p>
       </div>
 
+      <div className="reveal-gift-hints" style={{
+        margin: "15px auto",
+        fontSize: "0.85rem",
+        color: "var(--color-text-dark)",
+        backgroundColor: "var(--color-olive-light)",
+        padding: "12px 16px",
+        borderRadius: "12px",
+        border: "1px solid var(--color-cream-dark)",
+        maxWidth: "95%",
+        textAlign: "left"
+      }}>
+        <p style={{ fontWeight: "700", marginBottom: "8px", color: "var(--color-olive-dark)", textAlign: "center", fontSize: "0.9rem" }}>
+          🎁 Detalle según tu voto:
+        </p>
+        <p style={{ margin: "6px 0", display: "flex", alignItems: "flex-start", gap: "8px" }}>
+          <span>💗</span> <span>Si crees que es <strong>niña</strong> trae: <strong>toallitas húmedas</strong></span>
+        </p>
+        <p style={{ margin: "6px 0", display: "flex", alignItems: "flex-start", gap: "8px" }}>
+          <span>💙</span> <span>Si crees que es <strong>niño</strong> trae: <strong>pañales</strong></span>
+        </p>
+      </div>
+
       <div className="poll-container" style={{ borderBottom: "none", paddingBottom: 0 }}>
         {!hasConfirmed ? (
           <>

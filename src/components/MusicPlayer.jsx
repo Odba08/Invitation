@@ -61,8 +61,8 @@ export default function MusicPlayer({ isPlaying, setIsPlaying, audioRef }) {
           <div className="disc-center"></div>
         </div>
         <div className="music-track-details">
-          <p className="song-title">{CONFIG.songTitle}</p>
-          <p className="song-artist">Gustavo &amp; Fernanda</p>
+          <p className="song-title">una canción de amor para la pulga</p>
+          <p className="song-artist">Camilo</p>
         </div>
       </div>
 

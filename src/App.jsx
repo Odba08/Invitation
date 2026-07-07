@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin, Heart, User, CheckCircle, HelpCircle } from "lucide-react";
+import { MapPin, Heart, User, CheckCircle, HelpCircle, Gift } from "lucide-react";
 import { CONFIG } from "./config";
 import Envelope from "./components/Envelope";
 import MusicPlayer from "./components/MusicPlayer";
@@ -96,10 +96,13 @@ export default function App() {
           {/* Cabecera / Sección inicial de novios */}
           <header className="wedding-header">
             <h1 className="header-names">
-              {CONFIG.bride} <br />
+              Fiorella <br />
               &amp; <br />
-              {CONFIG.groom}
+              Endir
             </h1>
+            <p className="header-event-type" style={{ fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "2px", fontWeight: "600", color: "var(--color-olive)", margin: "10px 0" }}>
+              Nuestra Boda Civil &amp; Gender Reveal
+            </p>
             <p className="header-date">{CONFIG.weddingDateFormatted}</p>
           </header>
 
@@ -110,8 +113,8 @@ export default function App() {
                 <img src="/couple1.png" alt="Fiorella &amp; Endir" />
               </div>
             </div>
-            <p className="quote-text">
-              "De nadie seré, solo de ti. Hasta que mis huesos se vuelvan cenizas y mi corazón deje de latir."
+            <p className="quote-text" style={{ fontStyle: "italic", fontSize: "1.15rem", color: "var(--color-text-dark)", padding: "0 10px" }}>
+              "Queremos que seas parte de este gran momento para nosotros"
             </p>
           </section>
 
@@ -128,63 +131,19 @@ export default function App() {
             <Countdown />
           </section>
 
-          {/* Detalles de Ceremonia y Recepción */}
-          <section className="invitation-section scroll-reveal">
-            <div className="details-section">
-              {/* Ceremonia */}
-              <div className="detail-card">
-                <Church size={36} className="detail-icon" />
-                <h3 className="detail-title">{CONFIG.ceremony.title}</h3>
-                <p className="detail-time">{CONFIG.ceremony.time}</p>
-                <p className="detail-place">{CONFIG.ceremony.locationName}</p>
-                <p className="detail-city">{CONFIG.ceremony.city}</p>
-                <a 
-                  href={CONFIG.ceremony.mapLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="location-btn"
-                >
-                  <MapPin size={16} /> Ver ubicación
-                </a>
+          {/* Detalles del Evento Civil */}
+          <section className="invitation-section scroll-reveal" style={{ borderTop: "1px solid var(--color-cream-dark)", paddingTop: "2rem" }}>
+            <div className="details-section" style={{ display: "flex", justifyContent: "center" }}>
+              <div className="detail-card" style={{ width: "100%", maxWidth: "380px" }}>
+                <Sparkles size={36} className="detail-icon" style={{ margin: "0 auto 10px auto", display: "block" }} />
+                <h3 className="detail-title">{CONFIG.event.title}</h3>
+                <p className="detail-time" style={{ fontSize: "1.2rem", fontWeight: "700", margin: "10px 0" }}>{CONFIG.event.time}</p>
+                <p className="detail-place" style={{ fontSize: "0.95rem", lineHeight: "1.4" }}>
+                  <strong>Dirección:</strong> <br />
+                  {CONFIG.event.locationName}
+                </p>
+                <p className="detail-city" style={{ marginTop: "5px", fontSize: "0.85rem", opacity: 0.8 }}>Sábado, 08 de Agosto de 2026</p>
               </div>
-
-              {/* Recepción */}
-              <div className="detail-card">
-                <Sparkles size={36} className="detail-icon" />
-                <h3 className="detail-title">{CONFIG.reception.title}</h3>
-                <p className="detail-time">{CONFIG.reception.time}</p>
-                <p className="detail-place">{CONFIG.reception.locationName}</p>
-                <p className="detail-city">{CONFIG.reception.city}</p>
-                <a 
-                  href={CONFIG.reception.mapLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="location-btn"
-                >
-                  <MapPin size={16} /> Ver ubicación
-                </a>
-              </div>
-            </div>
-          </section>
-
-          {/* Itinerario de actividades */}
-          <section className="invitation-section scroll-reveal" style={{ backgroundColor: "rgba(94, 107, 78, 0.03)" }}>
-            <h2 className="timeline-section-title">Itinerario de actividades</h2>
-            <div className="timeline-container">
-              {CONFIG.itinerary.map((item, index) => {
-                const IconComponent = iconMap[item.icon] || Clock;
-                return (
-                  <div className="timeline-item" key={index}>
-                    <div className="timeline-node">
-                      <IconComponent size={14} className="timeline-node-icon" />
-                    </div>
-                    <div>
-                      <span className="timeline-time">{item.time}</span>
-                      <h4 className="timeline-title">{item.title}</h4>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </section>
 
@@ -205,12 +164,41 @@ export default function App() {
           {/* Código de vestimenta */}
           <section className="invitation-section scroll-reveal" style={{ borderTop: "1px solid var(--color-cream-dark)" }}>
             <h2 className="dress-code-title">Código de vestimenta</h2>
-            <p className="detail-time" style={{ marginBottom: "5px" }}>{CONFIG.dressCode.style}</p>
+            <p className="detail-time" style={{ marginBottom: "5px", fontSize: "1.2rem", fontWeight: "700" }}>{CONFIG.dressCode.style}</p>
             <div className="dress-code-icons">
               <div className="dress-icon-container">🤵</div>
               <div className="dress-icon-container">👗</div>
             </div>
-            <p className="dress-code-description">{CONFIG.dressCode.description}</p>
+            <p className="dress-code-description" style={{ marginBottom: "20px" }}>{CONFIG.dressCode.description}</p>
+            
+            <p style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--color-olive)", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "1px" }}>
+              Sugerencias de vestimenta:
+            </p>
+            
+            {/* Galería de imágenes de sugerencias */}
+            <div className="dress-code-gallery" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+              gap: "12px",
+              padding: "5px",
+              justifyContent: "center"
+            }}>
+              {CONFIG.dressCode.photos.map((photo, index) => (
+                <div className="gallery-item" key={index} style={{
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                  border: "2px solid #ffffff",
+                  aspectRatio: "2/3"
+                }}>
+                  <img src={photo} alt={`Sugerencia de vestimenta ${index + 1}`} style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover"
+                  }} />
+                </div>
+              ))}
+            </div>
           </section>
 
 
@@ -219,6 +207,123 @@ export default function App() {
           <section className="invitation-section scroll-reveal" id="rsvp-section">
             <RsvpForm selectedGender={selectedGender} setSelectedGender={setSelectedGender} />
           </section>
+
+          {/* Sugerencia de Regalo */}
+          {CONFIG.gifts.enabled && (
+            <section className="invitation-section scroll-reveal" style={{ borderTop: "1px solid var(--color-cream-dark)", paddingTop: "2.5rem" }}>
+              <Gift size={36} className="detail-icon" style={{ margin: "0 auto 15px auto", display: "block" }} />
+              <h2 className="dress-code-title">Sugerencia de Regalo</h2>
+              <p className="dress-code-description" style={{ fontSize: "0.9rem", color: "var(--color-text-muted)", marginBottom: "20px" }}>
+                {CONFIG.gifts.phrase}
+              </p>
+
+              <div className="gifts-container" style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                {/* Pago Móvil */}
+                <div className="gift-card" style={{
+                  backgroundColor: "var(--color-olive-light)",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  border: "1px solid var(--color-cream-dark)",
+                  textAlign: "left"
+                }}>
+                  <h4 style={{ color: "var(--color-olive-dark)", marginBottom: "8px", borderBottom: "1px solid var(--color-cream-dark)", paddingBottom: "4px" }}>🇻🇪 Pago Móvil</h4>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Banco:</strong> {CONFIG.gifts.pagoMovil.banco}</p>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Nombre:</strong> {CONFIG.gifts.pagoMovil.nombre}</p>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>C.I.:</strong> {CONFIG.gifts.pagoMovil.ci}</p>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Teléfono:</strong> {CONFIG.gifts.pagoMovil.telefono}</p>
+                  
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(`Banco: ${CONFIG.gifts.pagoMovil.banco}\nNombre: ${CONFIG.gifts.pagoMovil.nombre}\nCI: ${CONFIG.gifts.pagoMovil.ci}\nTelefono: ${CONFIG.gifts.pagoMovil.telefono}`);
+                      alert("Datos de Pago Móvil copiados al portapapeles");
+                    }}
+                    style={{
+                      marginTop: "10px",
+                      width: "100%",
+                      padding: "6px",
+                      borderRadius: "6px",
+                      border: "none",
+                      backgroundColor: "var(--color-olive)",
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      cursor: "pointer",
+                      fontWeight: "600"
+                    }}
+                  >
+                    Copiar Datos
+                  </button>
+                </div>
+
+                {/* Zelle */}
+                <div className="gift-card" style={{
+                  backgroundColor: "var(--color-olive-light)",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  border: "1px solid var(--color-cream-dark)",
+                  textAlign: "left"
+                }}>
+                  <h4 style={{ color: "var(--color-olive-dark)", marginBottom: "8px", borderBottom: "1px solid var(--color-cream-dark)", paddingBottom: "4px" }}>🇺🇸 Zelle</h4>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Nombre:</strong> {CONFIG.gifts.zelle.nombre}</p>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Teléfono:</strong> {CONFIG.gifts.zelle.telefono}</p>
+                  
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(`Zelle: ${CONFIG.gifts.zelle.nombre} - ${CONFIG.gifts.zelle.telefono}`);
+                      alert("Datos de Zelle copiados al portapapeles");
+                    }}
+                    style={{
+                      marginTop: "10px",
+                      width: "100%",
+                      padding: "6px",
+                      borderRadius: "6px",
+                      border: "none",
+                      backgroundColor: "var(--color-olive)",
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      cursor: "pointer",
+                      fontWeight: "600"
+                    }}
+                  >
+                    Copiar Datos
+                  </button>
+                </div>
+
+                {/* Binance */}
+                <div className="gift-card" style={{
+                  backgroundColor: "var(--color-olive-light)",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  border: "1px solid var(--color-cream-dark)",
+                  textAlign: "left"
+                }}>
+                  <h4 style={{ color: "var(--color-olive-dark)", marginBottom: "8px", borderBottom: "1px solid var(--color-cream-dark)", paddingBottom: "4px" }}>🪙 Binance</h4>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Usuario:</strong> {CONFIG.gifts.binance.usuario}</p>
+                  <p style={{ fontSize: "0.85rem", margin: "3px 0" }}><strong>Correo:</strong> {CONFIG.gifts.binance.correo}</p>
+                  
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(`Binance: ${CONFIG.gifts.binance.correo} (${CONFIG.gifts.binance.usuario})`);
+                      alert("Datos de Binance copiados al portapapeles");
+                    }}
+                    style={{
+                      marginTop: "10px",
+                      width: "100%",
+                      padding: "6px",
+                      borderRadius: "6px",
+                      border: "none",
+                      backgroundColor: "var(--color-olive)",
+                      color: "#ffffff",
+                      fontSize: "0.8rem",
+                      cursor: "pointer",
+                      fontWeight: "600"
+                    }}
+                  >
+                    Copiar Datos
+                  </button>
+                </div>
+              </div>
+            </section>
+          )}
 
           {/* Recomendaciones, Sin Niños y Footer */}
           <section className="invitation-section scroll-reveal" style={{ backgroundColor: "rgba(94, 107, 78, 0.03)", paddingBottom: "4rem" }}>

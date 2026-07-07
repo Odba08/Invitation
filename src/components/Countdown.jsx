@@ -41,8 +41,12 @@ export default function Countdown() {
   // Días de la semana para el calendario (Estilo clásico)
   const weekdays = ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"];
 
-  // Días del mes de Noviembre 2026 (Nov 1 es Domingo, por ende el offset es 0)
-  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
+  // Para Agosto 2026: empieza en Sábado (offset de 6 días vacíos) y tiene 31 días
+  const startDayOfWeek = 6; // Sábado (0 = Domingo, ..., 6 = Sábado)
+  const totalDays = 31;     // Agosto tiene 31 días
+
+  const emptyCells = Array.from({ length: startDayOfWeek });
+  const calendarDays = Array.from({ length: totalDays }, (_, i) => i + 1);
 
   return (
     <div className="countdown-section">
@@ -85,7 +89,12 @@ export default function Countdown() {
             </div>
           ))}
 
-          {/* Días del mes (Noviembre 2026 empieza en Domingo, por ende el día 1 va en la primera columna) */}
+          {/* Celdas vacías de offset para alinear el día 1 en Sábado */}
+          {emptyCells.map((_, i) => (
+            <div key={`empty-${i}`} className="calendar-day empty-day" style={{ opacity: 0 }}></div>
+          ))}
+
+          {/* Días del mes (Agosto 2026 empieza en Sábado) */}
           {calendarDays.map((day) => {
             const isTargetDay = day === CONFIG.weddingDayNumber;
             return (

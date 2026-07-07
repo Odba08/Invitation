@@ -4,65 +4,74 @@ export const CONFIG = {
   // Novios
   groom: "Endir Alvillar",
   bride: "Fiorella Vega de Florio",
-  weddingDateFormatted: "14.11.2026",
+  weddingDateFormatted: "08.08.2026",
   weddingYear: "2026",
-  weddingMonthName: "NOVIEMBRE",
+  weddingMonthName: "AGOSTO",
   weddingDayName: "SÁBADO",
-  weddingDayNumber: 14,
+  weddingDayNumber: 8,
   
-  // Cuenta regresiva: Año, Mes (0-indexed, 10 = Noviembre), Día, Hora, Minutos
-  countdownTargetDate: new Date(2026, 10, 14, 16, 30, 0), // 14 de Noviembre, 2026 a las 4:30 PM
+  // Cuenta regresiva: Año, Mes (0-indexed, 7 = Agosto), Día, Hora, Minutos
+  countdownTargetDate: new Date(2026, 7, 8, 21, 0, 0), // 8 de Agosto, 2026 a las 9:00 PM
 
   // Música de fondo (debe ser una URL directa a un archivo de audio como .mp3)
-  // Usamos una melodía romántica de piano de fondo de dominio público
-  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Canción de prueba, se puede reemplazar por cualquiera
-  songTitle: "Melodía Romántica de Piano",
+  // Usamos una melodía de piano de prueba. El usuario puede reemplazar la URL por la suya.
+  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  songTitle: "una canción de amor para la pulga - Camilo",
   
-  // Ceremonia Religiosa
-  ceremony: {
-    title: "Ceremonia Religiosa",
-    time: "4:30 pm",
-    locationName: "IGLESIA SAN FRANCISCO",
-    city: "Santa Cruz de la Sierra",
-    mapLink: "https://maps.app.goo.gl/t6qXnUu9Z2JcZ2jC7", // Ejemplo de mapa
+  // Evento Unificado: Boda Civil & Gender Reveal
+  event: {
+    title: "Nuestra Boda Civil & Gender Reveal",
+    time: "9:00 pm",
+    locationName: "Calle 70 entre Av 16 y Av 16A",
+    phrase: "Queremos que seas parte de este gran momento para nosotros",
+    mapLink: "", // Dejar vacío si no hay link directo
   },
 
-  // Recepción
-  reception: {
-    title: "Recepción",
-    time: "5:30 pm",
-    locationName: "SALÓN VENDIMIA",
-    city: "Santa Cruz de la Sierra",
-    mapLink: "https://maps.app.goo.gl/t6qXnUu9Z2JcZ2jC7", // Ejemplo de mapa
-  },
-
-  // Itinerario de actividades
-  itinerary: [
-    { time: "4:30 pm", title: "Iglesia", icon: "church" },
-    { time: "5:30 pm", title: "Coctel de Bienvenida", icon: "cocktail" },
-    { time: "7:00 pm", title: "Primer Baile, Vals y Brindis", icon: "dance" },
-    { time: "7:30 pm", title: "Cena", icon: "dinner" },
-    { time: "8:30 pm", title: "Fiesta y Encuesta de Sexo", icon: "party" },
-    { time: "3:00 am", title: "Fin del Evento", icon: "clock" }
-  ],
-
-  // Revelación de Sexo (Encuesta abierta sin revelar)
-  genderReveal: {
-    enabled: true,
+  // Dinámica de regalos para el Gender Reveal según la sospecha
+  genderRevealRules: {
+    girlGift: "trae: toallitas húmedas",
+    boyGift: "trae: pañales",
   },
 
   // Código de vestimenta
   dressCode: {
-    style: "Elegante",
-    description: "Con cariño les pedimos evitar prendas en color blanco y tonos similares.",
+    style: "Coctel",
+    description: "Les pedimos de corazón evitar vestir con los colores blanco, negro y gris, o tonos similares.",
+    photos: [
+      "/dress1.png",
+      "/suit1.png",
+      "/dress2.png",
+      "/suit2.png",
+      "/dress3.jpg"
+    ]
+  },
+
+  // Regalos
+  gifts: {
+    enabled: true,
+    phrase: "El mejor regalo es tu presencia, pero si deseas tener un detalle con nosotros, les dejamos las siguientes opciones:",
+    pagoMovil: {
+      banco: "Banesco",
+      nombre: "Endir Alvillar",
+      ci: "20.206.339",
+      telefono: "04124726621"
+    },
+    zelle: {
+      nombre: "Fioreanna Vega",
+      telefono: "(346) 843-4060"
+    },
+    binance: {
+      correo: "endiralvillar@gmail.com",
+      usuario: "Endir Alvillar"
+    }
   },
 
   // Confirmación
   confirmation: {
-    deadlineDate: "01 de noviembre de 2026",
+    deadlineDate: "01 de agosto de 2026",
     childrenPolicy: "SIN NIÑOS",
     childrenDescription: "Un evento para adultos está en camino. ¡Así que prepárense para una noche llena de diversión! Dejemos a los niños en casa esta vez.",
-    recommendations: "Seguir las indicaciones del personal de la boda. Ser puntual.",
+    recommendations: "Ser puntual.",
     thankYouMessage: "¡Muchas Gracias!",
   },
 
