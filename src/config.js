@@ -42,7 +42,8 @@ export const CONFIG = {
       "/suit1.png",
       "/dress2.png",
       "/suit2.png",
-      "/dress3.jpg"
+      "/dress3.jpg",
+      "/suit3.png"
     ]
   },
 
