@@ -20,23 +20,29 @@ const iconMap = {
 };
 
 export default function App() {
+  const [isEnvelopeOpening, setIsEnvelopeOpening] = useState(false);
   const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedGender, setSelectedGender] = useState(""); // Puede ser 'Niño' o 'Niña'
   const audioRef = useRef(null);
 
   const handleEnvelopeOpen = () => {
-    setIsEnvelopeOpened(true);
-    setIsPlaying(true);
+    setIsEnvelopeOpening(true);
     
     // Iniciar reproducción de música (con retraso opcional para fluidez)
     setTimeout(() => {
+      setIsPlaying(true);
       if (audioRef.current) {
         audioRef.current.play().catch((err) => {
           console.log("Autoplay bloqueado por el navegador, requiere interacción:", err);
         });
       }
-    }, 500);
+    }, 800);
+
+    // Esperar a que termine la animación de apertura (1.5 segundos) para desvanecer el sobre
+    setTimeout(() => {
+      setIsEnvelopeOpened(true);
+    }, 1500);
   };
 
   // Fallback de IntersectionObserver para animaciones en scroll
@@ -81,7 +87,7 @@ export default function App() {
   return (
     <div className="app-container">
       {/* Sobre interactivo que aparece en pantalla completa */}
-      <Envelope isOpen={isEnvelopeOpened} onOpen={handleEnvelopeOpen} />
+      <Envelope isOpening={isEnvelopeOpening} isOpened={isEnvelopeOpened} onOpen={handleEnvelopeOpen} />
 
       {/* Contenido de la invitación una vez abierto */}
       {isEnvelopeOpened && (
