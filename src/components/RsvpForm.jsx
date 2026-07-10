@@ -64,11 +64,17 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
     try {
       const guests = await steinService.fetchGuests();
       const query = normalise(searchQuery);
+      const queryWords = query.split(/\s+/).filter((w) => w.length > 0);
 
       const matches = guests.filter((g) => {
         const normNombre = normalise(g.nombre);
         const normCedula = normalise(g.cedula);
-        return normNombre.includes(query) || normCedula === query || normCedula.includes(query);
+
+        const matchesCedula = normCedula && (normCedula === query || normCedula.includes(query));
+        const matchesName =
+          queryWords.length > 0 && queryWords.every((word) => normNombre.includes(word));
+
+        return matchesName || matchesCedula;
       });
 
       setHasSearched(true);
