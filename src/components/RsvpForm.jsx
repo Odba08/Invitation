@@ -52,7 +52,7 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
     if (!searchQuery.trim()) {
-      setErrorMessage("Por favor, ingresa tu nombre o cédula.");
+      setErrorMessage("Por favor, ingresa tu nombre o apellido.");
       return;
     }
 
@@ -184,14 +184,14 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
           <form onSubmit={handleSearch} className="rsvp-form">
             <div className="form-group">
               <label htmlFor="searchQuery" className="form-label" style={{ textAlign: "center", display: "block" }}>
-                Escribe tu Nombre o Cédula:
+                Escribe tu Nombre o Apellido:
               </label>
               <div style={{ position: "relative" }}>
                 <input
                   type="text"
                   id="searchQuery"
                   className="form-input"
-                  placeholder="Ej. Oscar Bueno o 20206339"
+                  placeholder="Ej. Oscar Bueno o De Florio"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   disabled={isSearching}
