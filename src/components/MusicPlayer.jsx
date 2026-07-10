@@ -89,13 +89,6 @@ export default function MusicPlayer({ isPlaying, setIsPlaying, audioRef }) {
           <Repeat size={16} />
         </button>
       </div>
-
-      <audio 
-        ref={audioRef}
-        src={CONFIG.musicUrl}
-        loop
-        preload="auto"
-      />
     </div>
   );
 }

@@ -149,27 +149,7 @@ export default function GenderReveal({ selectedGender, setSelectedGender }) {
               Total de votos recibidos: {voteStats.totalVotes}
             </p>
             
-            <div style={{ textAlign: "center" }}>
-              <button 
-                onClick={() => {
-                  localStorage.removeItem("rsvp_submitted");
-                  setHasConfirmed(false);
-                  setSelectedGender("");
-                  console.log("🔄 RSVP y voto restablecido localmente para pruebas.");
-                }}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "var(--color-text-muted)",
-                  textDecoration: "underline",
-                  fontSize: "0.7rem",
-                  marginTop: "8px",
-                  cursor: "pointer"
-                }}
-              >
-                Restablecer confirmación (solo pruebas)
-              </button>
-            </div>
+
           </div>
         )}
       </div>

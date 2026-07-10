@@ -29,15 +29,16 @@ export default function App() {
   const handleEnvelopeOpen = () => {
     setIsEnvelopeOpening(true);
     
-    // Iniciar reproducción de música (con retraso opcional para fluidez)
-    setTimeout(() => {
+    // Iniciar reproducción de música de inmediato.
+    // Al ejecutarlo síncronamente (sin setTimeout), el navegador lo reconoce como
+    // parte de la interacción del usuario al hacer clic en "Abrir" y no bloquea el audio.
+    if (audioRef.current) {
       setIsPlaying(true);
-      if (audioRef.current) {
-        audioRef.current.play().catch((err) => {
-          console.log("Autoplay bloqueado por el navegador, requiere interacción:", err);
-        });
-      }
-    }, 800);
+      audioRef.current.play().catch((err) => {
+        console.log("Autoplay bloqueado o fallido:", err);
+        setIsPlaying(false); // Revertir a pausado si el navegador lo bloquea
+      });
+    }
 
     // Esperar a que termine la animación de apertura (1.5 segundos) para desvanecer el sobre
     setTimeout(() => {
@@ -126,7 +127,7 @@ export default function App() {
           {/* Bendición, Cuenta Regresiva y Calendario */}
           <section className="invitation-section olive-theme scroll-reveal">
             <p className="benediction-text">
-              Con la bendición de Dios y nuestros padres, tenemos el honor de invitarles a nuestra boda religiosa.
+              Tenemos el honor de invitarles a nuestra boda civil.
             </p>
             <Countdown />
           </section>
@@ -330,8 +331,12 @@ export default function App() {
             <h3 className="rec-title">Recomendaciones</h3>
             <p className="rec-desc">{CONFIG.confirmation.recommendations}</p>
             
-            <h3 className="rec-policy">{CONFIG.confirmation.childrenPolicy}</h3>
-            <p className="rec-desc">{CONFIG.confirmation.childrenDescription}</p>
+            {CONFIG.confirmation.childrenPolicy && (
+              <>
+                <h3 className="rec-policy">{CONFIG.confirmation.childrenPolicy}</h3>
+                <p className="rec-desc">{CONFIG.confirmation.childrenDescription}</p>
+              </>
+            )}
             
             <p className="footer-thanks">{CONFIG.confirmation.thankYouMessage}</p>
 
@@ -344,6 +349,14 @@ export default function App() {
 
         </div>
       )}
+
+      {/* Audio renderizado desde el inicio para permitir la reproducción inmediata al hacer clic */}
+      <audio 
+        ref={audioRef}
+        src={CONFIG.musicUrl}
+        loop
+        preload="auto"
+      />
     </div>
   );
 }

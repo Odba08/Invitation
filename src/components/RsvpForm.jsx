@@ -1,10 +1,17 @@
 // src/components/RsvpForm.jsx
 import React, { useState } from "react";
-import { Check, Mail } from "lucide-react";
+import { Check, Mail, Search, ArrowLeft, UserCheck } from "lucide-react";
 import { steinService } from "../services/steinService";
 import { CONFIG } from "../config";
 
 export default function RsvpForm({ selectedGender, setSelectedGender }) {
+  // Estado para la búsqueda
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [foundGuest, setFoundGuest] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     attending: true,
@@ -27,14 +34,87 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
     setFormData((prev) => ({
       ...prev,
       attending: isAttending,
-      guestsCount: isAttending ? 1 : 0,
+      guestsCount: isAttending && foundGuest ? foundGuest.pases : 0,
     }));
+  };
+
+  // Helper para normalizar cadenas (remueve acentos y pasa a mayúsculas)
+  const normalise = (str) => {
+    return str
+      ? str
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .trim()
+          .toUpperCase()
+      : "";
+  };
+
+  const handleSearch = async (e) => {
+    if (e) e.preventDefault();
+    if (!searchQuery.trim()) {
+      setErrorMessage("Por favor, ingresa tu nombre o cédula.");
+      return;
+    }
+
+    setErrorMessage("");
+    setIsSearching(true);
+    setFoundGuest(null);
+    setSearchResults([]);
+
+    try {
+      const guests = await steinService.fetchGuests();
+      const query = normalise(searchQuery);
+
+      const matches = guests.filter((g) => {
+        const normNombre = normalise(g.nombre);
+        const normCedula = normalise(g.cedula);
+        return normNombre.includes(query) || normCedula === query || normCedula.includes(query);
+      });
+
+      setHasSearched(true);
+      if (matches.length === 1) {
+        selectGuest(matches[0]);
+      } else if (matches.length > 1) {
+        setSearchResults(matches);
+      } else {
+        setErrorMessage("No encontramos tu nombre en la lista de invitados. Por favor, verifica la ortografía o contáctanos para ayudarte.");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Ocurrió un error al consultar la lista. Inténtalo de nuevo.");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const selectGuest = (guest) => {
+    setFoundGuest(guest);
+    setFormData((prev) => ({
+      ...prev,
+      name: guest.nombre,
+      guestsCount: guest.pases,
+    }));
+    setErrorMessage("");
+  };
+
+  const resetSearch = () => {
+    setFoundGuest(null);
+    setSearchResults([]);
+    setHasSearched(false);
+    setSearchQuery("");
+    setErrorMessage("");
+    setFormData({
+      name: "",
+      attending: true,
+      guestsCount: 1,
+      message: "",
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
-      setErrorMessage("Por favor, ingresa tu nombre completo.");
+      setErrorMessage("Por favor, selecciona o busca tu invitación.");
       return;
     }
 
@@ -47,22 +127,18 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
     setIsSubmitting(true);
 
     try {
-      // Enviar la confirmación y el voto juntos en una sola fila
       await steinService.submitRsvp({
         name: formData.name,
+        cedula: foundGuest ? foundGuest.cedula : "",
         attending: formData.attending,
         guestsCount: formData.attending ? parseInt(formData.guestsCount, 10) : 0,
         message: formData.message,
-        voto: selectedGender // 'Niño' o 'Niña'
+        voto: selectedGender
       });
       
-      // Guardar estado en localStorage
       localStorage.setItem("rsvp_submitted", "true");
       localStorage.setItem("gender_voted", selectedGender === "Niño" ? "boy" : "girl");
-      
-      // Disparar evento para que el componente de estadísticas se recargue
       window.dispatchEvent(new Event("rsvp_submitted_event"));
-      
       setIsSubmitted(true);
     } catch (error) {
       setErrorMessage("Ocurrió un error al enviar tu confirmación. Por favor, inténtalo de nuevo.");
@@ -78,7 +154,7 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
         <Mail size={32} className="rsvp-icon" />
         <h2 className="rsvp-title">Confirmación de Asistencia</h2>
         <p className="rsvp-subtitle">
-          Por favor, ayúdanos a planificar nuestro gran día confirmando antes del <span className="highlight">{CONFIG.confirmation.deadlineDate}</span>.
+          Por favor, confirma tu asistencia antes del <span className="highlight">{CONFIG.confirmation.deadlineDate}</span>.
         </p>
       </div>
 
@@ -94,50 +170,123 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
           ) : (
             <p className="success-subtext">Sentimos que no puedas acompañarnos, gracias por informarnos. ❤️</p>
           )}
-          
-          <button 
-            onClick={() => {
-              localStorage.removeItem("rsvp_submitted");
-              localStorage.removeItem("gender_voted");
-              setSelectedGender("");
-              setIsSubmitted(false);
-              setFormData({
-                name: "",
-                attending: true,
-                guestsCount: 1,
-                message: "",
-              });
-              // Disparar evento para refrescar stats a su estado de voto inicial
-              window.dispatchEvent(new Event("rsvp_submitted_event"));
-            }}
-            style={{
-              background: "none",
-              border: "none",
-              color: "var(--color-text-muted)",
-              textDecoration: "underline",
-              fontSize: "0.74rem",
-              marginTop: "15px",
-              cursor: "pointer"
-            }}
-          >
-            Nueva confirmación (solo pruebas)
-          </button>
+
+        </div>
+      ) : !foundGuest ? (
+        /* PASO 1: BÚSQUEDA DE INVITADO */
+        <div className="rsvp-search-container">
+          <form onSubmit={handleSearch} className="rsvp-form">
+            <div className="form-group">
+              <label htmlFor="searchQuery" className="form-label" style={{ textAlign: "center", display: "block" }}>
+                Escribe tu Nombre o Cédula:
+              </label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="text"
+                  id="searchQuery"
+                  className="form-input"
+                  placeholder="Ej. Oscar Bueno o 20206339"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  disabled={isSearching}
+                  style={{ paddingRight: "40px" }}
+                  required
+                />
+                <Search 
+                  size={18} 
+                  style={{
+                    position: "absolute",
+                    right: "12px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "var(--color-text-muted)",
+                    opacity: 0.6
+                  }} 
+                />
+              </div>
+            </div>
+
+            {errorMessage && <p className="form-error" style={{ textAlign: "center" }}>{errorMessage}</p>}
+
+            <button
+              type="submit"
+              className="rsvp-submit-btn"
+              disabled={isSearching}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px"
+              }}
+            >
+              {isSearching ? "Buscando..." : "Buscar Invitación"}
+            </button>
+          </form>
+
+          {/* Múltiples resultados encontrados */}
+          {searchResults.length > 0 && (
+            <div className="search-results-list" style={{ marginTop: "20px", animation: "fadeIn 0.3s ease" }}>
+              <p style={{ fontSize: "0.9rem", fontWeight: "600", marginBottom: "10px", color: "var(--color-text-dark)", textAlign: "center" }}>
+                Encontramos varias coincidencias. ¿Cuál es tu nombre?
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {searchResults.map((guest, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => selectGuest(guest)}
+                    style={{
+                      padding: "12px 16px",
+                      borderRadius: "8px",
+                      border: "1px solid var(--color-cream-dark)",
+                      backgroundColor: "#ffffff",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      fontSize: "0.9rem",
+                      fontWeight: "500",
+                      color: "var(--color-text-dark)",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      transition: "background-color 0.2s, border-color 0.2s"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--color-olive-light)";
+                      e.currentTarget.style.borderColor = "var(--color-olive)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "#ffffff";
+                      e.currentTarget.style.borderColor = "var(--color-cream-dark)";
+                    }}
+                  >
+                    <span>{guest.nombre}</span>
+                    <span style={{ fontSize: "0.75rem", padding: "2px 8px", borderRadius: "10px", backgroundColor: "var(--color-cream-dark)", color: "var(--color-text-muted)" }}>
+                      {guest.pases} {guest.pases === 1 ? "pase" : "pases"}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="rsvp-form">
-          <div className="form-group">
-            <label htmlFor="name" className="form-label">Nombre Completo</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="form-input"
-              placeholder="Ej. Juan Pérez"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              disabled={isSubmitting}
-            />
+        /* PASO 2: FORMULARIO DE CONFIRMACIÓN CON DATOS BLOQUEADOS */
+        <form onSubmit={handleSubmit} className="rsvp-form animate-fade-in">
+          <div className="guest-welcome-badge" style={{
+            backgroundColor: "var(--color-olive-light)",
+            borderRadius: "12px",
+            padding: "15px",
+            border: "1px solid var(--color-cream-dark)",
+            marginBottom: "20px",
+            textAlign: "center"
+          }}>
+            <UserCheck size={28} style={{ color: "var(--color-olive)", margin: "0 auto 8px auto" }} />
+            <h3 style={{ fontSize: "1.1rem", color: "var(--color-olive-dark)", fontWeight: "700" }}>
+              ¡Hola, {foundGuest.nombre}!
+            </h3>
+            <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginTop: "4px" }}>
+              Hemos encontrado tu invitación.
+            </p>
           </div>
 
           <div className="form-group">
@@ -163,26 +312,26 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
           </div>
 
           {formData.attending && (
-            <div className="form-group animate-fade-in">
-              <label htmlFor="guestsCount" className="form-label">Cantidad de Asistentes (incluyéndote)</label>
-              <select
-                id="guestsCount"
-                name="guestsCount"
-                className="form-select"
-                value={formData.guestsCount}
-                onChange={handleChange}
-                disabled={isSubmitting}
-              >
-                <option value={1}>1 Persona</option>
-                <option value={2}>2 Personas</option>
-                <option value={3}>3 Personas</option>
-                <option value={4}>4 Personas</option>
-                <option value={5}>5 Personas</option>
-              </select>
+            <div className="form-group" style={{
+              backgroundColor: "rgba(94, 107, 78, 0.03)",
+              padding: "12px 16px",
+              borderRadius: "8px",
+              border: "1px dashed var(--color-cream-dark)",
+              textAlign: "center"
+            }}>
+              <p style={{ fontSize: "0.9rem", color: "var(--color-text-dark)" }}>
+                Tienes asignado:
+              </p>
+              <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--color-olive)", margin: "4px 0" }}>
+                {foundGuest.pases} {foundGuest.pases === 1 ? "Pase" : "Pases"}
+              </p>
+              <p style={{ fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
+                (Cupos fijos y asignados individualmente)
+              </p>
             </div>
           )}
 
-          {/* Sección de Apuesta / Voto de Género integrada */}
+          {/* Voto de Género obligatorio */}
           <div className="form-group">
             <label className="form-label">¿Qué crees que será el bebé? (Voto obligatorio)</label>
             <div className="attending-toggle-buttons">
@@ -223,13 +372,36 @@ export default function RsvpForm({ selectedGender, setSelectedGender }) {
 
           {errorMessage && <p className="form-error">{errorMessage}</p>}
 
-          <button
-            type="submit"
-            className="rsvp-submit-btn"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Enviando..." : "Confirmar Asistencia"}
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" }}>
+            <button
+              type="submit"
+              className="rsvp-submit-btn"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Enviando..." : "Confirmar Asistencia"}
+            </button>
+
+            <button
+              type="button"
+              onClick={resetSearch}
+              disabled={isSubmitting}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                background: "none",
+                border: "none",
+                color: "var(--color-text-muted)",
+                fontSize: "0.8rem",
+                cursor: "pointer",
+                padding: "8px",
+                textDecoration: "underline"
+              }}
+            >
+              <ArrowLeft size={14} /> Buscar otra invitación / No soy yo
+            </button>
+          </div>
         </form>
       )}
     </div>

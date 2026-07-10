@@ -25,6 +25,7 @@ export const steinService = {
   async submitRsvp(rsvpData) {
     const payload = {
       nombre: rsvpData.name,
+      cedula: rsvpData.cedula || "",
       asistencia: rsvpData.attending ? "Sí" : "No",
       cantidad: rsvpData.attending ? rsvpData.guestsCount : 0,
       mensaje: rsvpData.message || "",
@@ -219,6 +220,61 @@ export const steinService = {
         boyPercentage: 45,
         girlPercentage: 55
       };
+    }
+  },
+
+  /**
+   * Obtiene la lista completa de invitados desde Google Sheets o de mockGuests si falla o no está configurada.
+   */
+  async fetchGuests() {
+    console.log("🔍 [GUESTS] Solicitando lista de invitados para verificación...");
+    
+    // Si no hay API configurada, usamos simulación
+    if (!CONFIG.steinReadGuestsApiUrl && !CONFIG.steinApiUrl) {
+      console.warn("⚠️ [GUESTS] No hay CONFIG.steinReadGuestsApiUrl ni CONFIG.steinApiUrl configurada. Usando mockGuests local.");
+      await new Promise((resolve) => setTimeout(resolve, 600)); // Simular retraso de red
+      return CONFIG.mockGuests || [];
+    }
+
+    try {
+      // Priorizar la API de lectura de invitados (solo lectura)
+      const isReadOnlyApi = !!CONFIG.steinReadGuestsApiUrl;
+      const baseUrl = isReadOnlyApi ? CONFIG.steinReadGuestsApiUrl : CONFIG.steinApiUrl;
+      const sheetName = isReadOnlyApi ? "Hoja 1" : CONFIG.steinGuestsSheet;
+      const url = `${baseUrl.replace(/\/$/, "")}/${sheetName}`;
+      
+      console.log(`🌐 [GUESTS] Realizando GET a URL: ${url}`);
+      
+      const headers = {};
+      if (!isReadOnlyApi) {
+        headers["Authorization"] = AUTH_HEADER;
+      }
+      
+      const response = await fetch(url, { headers });
+      
+      console.log(`📡 [GUESTS] Código de respuesta HTTP: ${response.status} (${response.statusText})`);
+
+      if (!response.ok) {
+        throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const rows = await response.json();
+      console.log(`📦 [GUESTS] Se obtuvieron ${Array.isArray(rows) ? rows.length : 0} invitados.`);
+      
+      if (!Array.isArray(rows)) {
+        throw new Error("La respuesta de Stein HQ no es un arreglo válido.");
+      }
+
+      // Convertir 'pases' a número y normalizar nombres de columna si es necesario
+      return rows.map(row => ({
+        nombre: row.nombre || row.nombre_completo || "",
+        cedula: row.cedula || row.ci || "",
+        pases: parseInt(row.pases || row.cantidad || "1", 10)
+      }));
+    } catch (error) {
+      console.warn("❌ [GUESTS] Error al consultar Stein HQ. Usando mockGuests local como fallback:", error.message);
+      // Fallback seguro a los datos simulados de config.js
+      return CONFIG.mockGuests || [];
     }
   }
 };

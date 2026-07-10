@@ -14,8 +14,8 @@ export const CONFIG = {
   countdownTargetDate: new Date(2026, 7, 8, 21, 0, 0), // 8 de Agosto, 2026 a las 9:00 PM
 
   // Música de fondo (debe ser una URL directa a un archivo de audio como .mp3)
-  // Usamos una melodía de piano de prueba. El usuario puede reemplazar la URL por la suya.
-  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  // Ubicado en la carpeta /public
+  musicUrl: "/camilo.mp3",
   songTitle: "una canción de amor para la pulga - Camilo",
   
   // Evento Unificado: Boda Civil & Gender Reveal
@@ -70,8 +70,8 @@ export const CONFIG = {
   // Confirmación
   confirmation: {
     deadlineDate: "01 de agosto de 2026",
-    childrenPolicy: "SIN NIÑOS",
-    childrenDescription: "Un evento para adultos está en camino. ¡Así que prepárense para una noche llena de diversión! Dejemos a los niños en casa esta vez.",
+    // childrenPolicy: "SIN NIÑOS",
+    // childrenDescription: "Un evento para adultos está en camino. ¡Así que prepárense para una noche llena de diversión! Dejemos a los niños en casa esta vez.",
     recommendations: "Ser puntual.",
     thankYouMessage: "¡Muchas Gracias!",
   },
@@ -79,7 +79,21 @@ export const CONFIG = {
   // Stein HQ API Integraciones
   steinApiUrl: "https://api.steinhq.com/v1/storages/6a4d5c1a92b1163e97174745", 
   
+  // Nueva API de Stein HQ para consultar pases de invitados (solo lectura)
+  steinReadGuestsApiUrl: "https://api.steinhq.com/v1/storages/6a516c6f92b1163e971942da",
+  
   // Nombre de la hoja de Google Sheets en Stein HQ
   steinRsvpSheet: "Hoja 1",
   steinVotesSheet: "Hoja 1",
+  steinGuestsSheet: "Invitados", // Nombre de la pestaña de la base de datos de invitados
+
+  // Lista de invitados simulados/pruebas (Desarrollo y Fallback)
+  mockGuests: [
+    { nombre: "Oscar Bueno", cedula: "20206339", pases: 4 },
+    { nombre: "Juan Pérez", cedula: "123456", pases: 2 },
+    { nombre: "María Gómez", cedula: "789012", pases: 3 },
+    { nombre: "Camilo Echeverry", cedula: "999999", pases: 1 },
+    { nombre: "Endir Alvillar", cedula: "888888", pases: 2 },
+    { nombre: "Fiorella Vega", cedula: "777777", pases: 2 }
+  ],
 };
