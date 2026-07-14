@@ -143,7 +143,20 @@ export default function App() {
                   <strong>Dirección:</strong> <br />
                   {CONFIG.event.locationName}
                 </p>
-                <p className="detail-city" style={{ marginTop: "5px", fontSize: "0.85rem", opacity: 0.8 }}>Sábado, 08 de Agosto de 2026</p>
+                {CONFIG.event.mapLink && (
+                  <div style={{ marginTop: "15px" }}>
+                    <a 
+                      href={CONFIG.event.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="map-button"
+                    >
+                      <MapPin size={16} />
+                      Ver Ubicación GPS
+                    </a>
+                  </div>
+                )}
+                <p className="detail-city" style={{ marginTop: "12px", fontSize: "0.85rem", opacity: 0.8 }}>Sábado, 08 de Agosto de 2026</p>
               </div>
             </div>
           </section>

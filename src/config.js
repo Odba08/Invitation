@@ -24,7 +24,7 @@ export const CONFIG = {
     time: "9:00 pm",
     locationName: "Calle 70 entre Av 16 y Av 16A",
     phrase: "Queremos que seas parte de este gran momento para nosotros",
-    mapLink: "", // Dejar vacío si no hay link directo
+    mapLink: "https://maps.app.goo.gl/uNrfEcEH3wfiZ9ex7?g_st=iw", // Dejar vacío si no hay link directo
   },
 
   // Dinámica de regalos para el Gender Reveal según la sospecha
