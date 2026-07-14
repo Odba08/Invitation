@@ -3,27 +3,28 @@
 
 /* variables del sistema de diseño */
 /* variables del sistema de diseño */
+/* variables del sistema de diseño */
 :root {
-  /* --- Paleta Corregida: Dorado y Blanco Perlado --- */
-  --color-olive: #D4AF37;         /* Dorado verdadero/metálico */
-  --color-olive-dark: #AA8222;    /* Dorado oscuro para sombras/hover sin llegar a marrón */
-  --color-olive-light: #F9F5E8;   /* Reflejo dorado muy sutil */
+  /* --- Paleta Corregida v2: Oro Viejo / Champagne --- */
+  --color-olive: #B5955C;         /* Oro champagne mate (elimina el amarillo brillante) */
+  --color-olive-dark: #8C7343;    /* Bronce profundo para sombras y contrastes */
+  --color-olive-light: #F4F0E6;   /* Fondo crema con levísimo matiz dorado */
   
-  --color-cream: #FDFBF7;         /* Blanco perlado puro (alta luminosidad, mínima calidez) */
-  --color-cream-dark: #EAE6DF;    /* Gris perlado para bordes y contraste sutil */
+  --color-cream: #FDFBF7;         /* Blanco perlado puro */
+  --color-cream-dark: #EAE6DF;    /* Gris perlado oscuro */
   
-  --color-text-dark: #2C241B;     /* Carbón cálido (legibilidad óptima sobre perlado) */
-  --color-text-muted: #7A6A53;    /* Texto secundario en armonía con el dorado */
+  --color-text-dark: #2A241D;     /* Texto casi negro con matiz cálido */
+  --color-text-muted: #7A6A53;    /* Texto secundario */
   
-  --color-boy: #5ba4e5;           /* Azul para votación bebé */
-  --color-girl: #f17db4;          /* Rosa para votación bebé */
+  --color-boy: #5ba4e5;
+  --color-girl: #f17db4;
   
   --font-cursive: 'Great Vibes', cursive;
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   
-  --shadow-premium: 0 10px 30px rgba(212, 175, 55, 0.08); /* Sombra teñida de oro */
-  --shadow-card: 0 4px 20px rgba(44, 36, 27, 0.06);       /* Sombra base neutralizada */
+  --shadow-premium: 0 10px 30px rgba(181, 149, 92, 0.1); 
+  --shadow-card: 0 4px 20px rgba(42, 36, 29, 0.06);
 }
 
 * {
