@@ -111,7 +111,7 @@ export default function App() {
           <section className="invitation-section scroll-reveal">
             <div className="photo-frame-container">
               <div className="photo-frame">
-                <img src="/couple1.png" alt="Fiorella &amp; Endir" />
+                <img src="/couple1.JPG" alt="Fiorella &amp; Endir" />
               </div>
             </div>
             <p className="quote-text" style={{ fontStyle: "italic", fontSize: "1.15rem", color: "var(--color-text-dark)", padding: "0 10px" }}>
@@ -152,7 +152,7 @@ export default function App() {
           <section className="invitation-section scroll-reveal">
             <div className="photo-frame-container">
               <div className="photo-frame alt">
-                <img src="/couple2.png" alt="Fiorella &amp; Endir caminando" />
+                <img src="/couple2.JPG" alt="Fiorella &amp; Endir caminando" />
               </div>
             </div>
           </section>
@@ -342,7 +342,7 @@ export default function App() {
 
             <div className="photo-frame-container" style={{ marginTop: "2rem" }}>
               <div className="photo-frame">
-                <img src="/couple3.png" alt="Fiorella &amp; Endir close up" />
+                <img src="/couple3.JPG" alt="Fiorella &amp; Endir close up" />
               </div>
             </div>
           </section>
