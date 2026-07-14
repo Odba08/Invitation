@@ -11,7 +11,7 @@ export const CONFIG = {
   weddingDayNumber: 8,
   
   // Cuenta regresiva: Año, Mes (0-indexed, 7 = Agosto), Día, Hora, Minutos
-  countdownTargetDate: new Date(2026, 7, 8, 21, 0, 0), // 8 de Agosto, 2026 a las 9:00 PM
+  countdownTargetDate: new Date(2026, 7, 8, 21, 0, 0), // 8 de Agosto, 2026 a las 8:00 PM
 
   // Música de fondo (debe ser una URL directa a un archivo de audio como .mp3)
   // Ubicado en la carpeta /public
@@ -21,7 +21,7 @@ export const CONFIG = {
   // Evento Unificado: Boda Civil & Gender Reveal
   event: {
     title: "Nuestra Boda Civil & Gender Reveal",
-    time: "9:00 pm",
+    time: "8:00 pm",
     locationName: "Calle 70 entre Av 16 y Av 16A",
     phrase: "Queremos que seas parte de este gran momento para nosotros",
     mapLink: "https://maps.app.goo.gl/uNrfEcEH3wfiZ9ex7?g_st=iw", // Dejar vacío si no hay link directo
