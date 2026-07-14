@@ -2,23 +2,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 /* variables del sistema de diseño */
+/* variables del sistema de diseño */
 :root {
-  --color-olive: hsl(43, 45%, 42%);       /* Dorado principal (#9b7c36) */
-  --color-olive-dark: hsl(43, 40%, 25%);  /* Dorado oscuro/bronce (#5c481e) */
-  --color-olive-light: hsl(43, 30%, 93%); /* Dorado claro perlado (#f2ebd9) */
-  --color-cream: hsl(40, 15%, 98%);       /* Blanco perlado (#faf9f6) */
-  --color-cream-dark: hsl(40, 10%, 88%);  /* Blanco perlado oscuro para bordes (#e4dfd5) */
-  --color-text-dark: hsl(30, 15%, 20%);   /* Texto oscuro bronce */
-  --color-text-muted: hsl(30, 8%, 46%);   /* Texto secundario */
-  --color-boy: #5ba4e5;                  /* Azul para votación bebé */
-  --color-girl: #f17db4;                 /* Rosa para votación bebé */
+  /* --- Paleta Corregida: Dorado y Blanco Perlado --- */
+  --color-olive: #D4AF37;         /* Dorado verdadero/metálico */
+  --color-olive-dark: #AA8222;    /* Dorado oscuro para sombras/hover sin llegar a marrón */
+  --color-olive-light: #F9F5E8;   /* Reflejo dorado muy sutil */
+  
+  --color-cream: #FDFBF7;         /* Blanco perlado puro (alta luminosidad, mínima calidez) */
+  --color-cream-dark: #EAE6DF;    /* Gris perlado para bordes y contraste sutil */
+  
+  --color-text-dark: #2C241B;     /* Carbón cálido (legibilidad óptima sobre perlado) */
+  --color-text-muted: #7A6A53;    /* Texto secundario en armonía con el dorado */
+  
+  --color-boy: #5ba4e5;           /* Azul para votación bebé */
+  --color-girl: #f17db4;          /* Rosa para votación bebé */
   
   --font-cursive: 'Great Vibes', cursive;
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   
-  --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 4px 20px rgba(144, 95, 69, 0.08);
+  --shadow-premium: 0 10px 30px rgba(212, 175, 55, 0.08); /* Sombra teñida de oro */
+  --shadow-card: 0 4px 20px rgba(44, 36, 27, 0.06);       /* Sombra base neutralizada */
 }
 
 * {
